@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medicines</title>
+</head>
+<body>
+    <h1>Medicines</h1>
+    <ul>
+        {% for medicine in medicines %}
+            <li>{{ medicine.name }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

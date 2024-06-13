@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HR Apotheek</title>
+</head>
+<body>
+    <h1>Welcome to HR Apotheek</h1>
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }}!</p>
+        <p><a href="{% url 'profile' %}">View Profile</a></p>
+        <p><a href="{% url 'medicine_list' %}">View Medicines</a></p>
+        <p><a href="{% url 'collection_list' %}">View Collections</a></p>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a></p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Collections</title>
+</head>
+<body>
+    <h1>Collections</h1>
+    <ul>
+        {% for collection in collections %}
+            <li>{{ collection.medicine.name }} - {{ collection.date }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
