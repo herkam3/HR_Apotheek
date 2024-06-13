@@ -1,7 +1,7 @@
 from django.contrib import admin
-from django.urls import path, include
+from .models import Medicine, Collection, Profile
 
-urlpattern = [
-    path('admin/', admin.site.urls),
-    path("base/", include("base.urls")),
-]
+# Register your models here.
+admin.site.register(Medicine)
+admin.site.register(Collection)
+admin.site.register(Profile)
