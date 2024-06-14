@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
-    {% load static %}
-    <link rel="stylesheet" href="{% static '../static/base/css/menu.css' %}">
 <head>
-</head>
-    <body>
-        {% include 'base/base.html' %}
-    </body>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'base/css/menu.css' %}">
 </head>
 <body>
+    {% include 'base/base.html' %}
+
     <h1>Welcome to HR Apotheek</h1>
     {% if user.is_authenticated %}
         <p>Hello, {{ user.username }}!</p>
