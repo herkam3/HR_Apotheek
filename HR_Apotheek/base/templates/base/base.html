@@ -1,0 +1,17 @@
+<header>
+    {% load static %}
+    <img src="{% static 'base/img/Apotheek-Logo.png' %}" alt="Logo">
+    <h1>HR Apotheek</h1>
+    <nav>
+        <ul>
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
+            <li><a href="{% url 'medicine_list' %}">Medicine info</a></li>
+        </ul>
+    </nav>
+</header>
+
+{% comment %} 
+this is the mennubalk use {% include 'base/base.html' %} to call the menubalk,
+this should be incuded on most html pages.
+{% endcomment %}

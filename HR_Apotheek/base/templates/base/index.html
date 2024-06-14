@@ -4,19 +4,9 @@
     <link rel="stylesheet" href="{% static '../static/base/css/menu.css' %}">
 <head>
 </head>
-<body>
-    <header>
-        <img src="{% static 'base/img/Apotheek-Logo.png' %}" alt="Logo">
-        <h1> HR Apotheek </h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
-                <li><a href="{% url 'medicine_list' %}">Medicine info</a></li>
-            </ul>
-        </nav>
-    </header>
-</body>
+    <body>
+        {% include 'base/base.html' %}
+    </body>
 </head>
 <body>
     <h1>Welcome to HR Apotheek</h1>
