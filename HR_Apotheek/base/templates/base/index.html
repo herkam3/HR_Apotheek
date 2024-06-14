@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 <html>
     {% load static %}
-    <link rel="stylesheet" href="{% static '../static/base/css/style.css' %}">
+    <link rel="stylesheet" href="{% static '../static/base/css/menu.css' %}">
 <head>
-    <title>HR Apotheek</title>
+</head>
+<body>
+    <header>
+        <img src="{% static 'base/img/Apotheek-Logo.png' %}" alt="Logo">
+        <h1> HR Apotheek </h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                <li><a href="{% url 'medicine_list' %}">Medicine info</a></li>
+            </ul>
+        </nav>
+    </header>
+</body>
 </head>
 <body>
     <h1>Welcome to HR Apotheek</h1>
