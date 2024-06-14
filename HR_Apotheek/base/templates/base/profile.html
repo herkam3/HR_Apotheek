@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
+    {% load static %}
+    <link rel="stylesheet" href="{% static '../static/base/css/style.css' %}">
 <head>
     <title>Profile</title>
+    <body>
+        {% include 'base/base.html' %}
+    </body>
 </head>
 <body>
     <h1>Profile</h1>

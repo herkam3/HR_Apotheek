@@ -1,0 +1,27 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: Trebuchet MS;
+   }
+    
+   .menu {
+    margin: 0rem;
+    padding: 5rem;
+    border: 0.5rem solid black;
+    text-align: left;
+   }
+    
+   .menu ul li {
+    display: inline;
+    padding: 5rem;
+   }
+    
+   .menu ul li a, a:link, a:visited, a:active {
+    color: #666;
+    text-decoration: none;
+   }
+    
+   .menu ul li a:hover {
+    color: #333;
+    text-decoration: underline;
+   }
