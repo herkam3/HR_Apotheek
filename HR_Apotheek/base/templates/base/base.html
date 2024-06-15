@@ -1,31 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}HR Apotheek{% endblock %}</title>
+<header>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'base/css/style.css' %}">
-</head>
-<body>
-    <header>
-        <img src="{% static 'base/img/Apotheek-Logo.png' %}" alt="Logo">
-        <div class="header-content">
-            <h1>HR APOTHEEK</h1>
-        </div>
-        <div class="authors">
-            <h2>Authors:<br>-- Bora --<br>-- Halit --</h2>
-        </div>
-    </header>
-
-    {% comment %} 
-    this is the menu bar use {% include 'base/base.html' %} to call the menu bar,
-    this should be included on most html pages.
-    {% endcomment %}
-    
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-</body>
-</html>
+    <img src="{% static 'base/img/Apotheek-Logo.png' %}" alt="Logo">
+    <div class="header-content">
+        <h1>HR APOTHEEK</h1>
+    </div>
+    <div class="authors">
+        <h2>Authors:<br>-- Bora --<br>-- Halit --</h2>
+    </div>
+    <nav>
+        <ul>
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <li><a href="{% url 'admin_dashboard' %}">Admin Dashboard</a></li>
+                {% else %}
+                    <li><a href="{% url 'user_dashboard' %}">User Dashboard</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>

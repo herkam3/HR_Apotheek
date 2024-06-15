@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'base/css/style.css' %}">
+</head>
+<body>
+    {% include 'base/base.html' %}
+    <main>
+        <h2>Welcome, {{ user.username }}!</h2>
+        <h3>Your Collections</h3>
+        <ul>
+            {% for collection in collections %}
+                <li>
+                    {{ collection.medicine.name }} - {{ collection.date }}
+                    {% if not collection.collected %}
+                        <a href="{% url 'collection_mark_collected' collection.id %}">Mark as Collected</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
+</html>
