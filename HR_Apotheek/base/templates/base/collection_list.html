@@ -1,20 +1,26 @@
 <!DOCTYPE html>
-
-<html>
-    {% load static %}
-    <link rel="stylesheet" href="{% static '../static/base/css/style.css' %}">
+<html lang="en">
 <head>
-    <title>Collections</title>
-    <body>
-        {% include 'base/base.html' %}
-    </body>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection List</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'base/css/style.css' %}">
 </head>
 <body>
-    <h1>Collections</h1>
-    <ul>
-        {% for collection in collections %}
-            <li>{{ collection.medicine.name }} - {{ collection.date }}</li>
-        {% endfor %}
-    </ul>
+    {% include 'base/base.html' %}
+    <main>
+        <h2>Collection List</h2>
+        <ul>
+            {% for collection in collections %}
+                <li>
+                    {{ collection.medicine.name }} - {{ collection.date }}
+                    {% if not collection.collected %}
+                        <a href="{% url 'collection_mark_collected' collection.id %}">Mark as Collected</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
 </body>
 </html>

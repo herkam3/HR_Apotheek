@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Prescription</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'base/css/style.css' %}">
+</head>
+<body>
+    {% include 'base/base.html' %}
+    <main>
+        <h2>Create Prescription</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save</button>
+        </form>
+    </main>
+</body>
+</html>

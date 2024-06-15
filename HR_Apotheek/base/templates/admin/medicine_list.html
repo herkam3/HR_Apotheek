@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medicine List</title>
+    <title>Manage Medicines</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'base/css/style.css' %}">
 </head>
 <body>
     {% include 'base/base.html' %}
     <main>
-        <h2>Medicine List</h2>
+        <h2>Manage Medicines</h2>
+        <a href="{% url 'admin_add_medicine' %}">Add Medicine</a>
         <ul>
             {% for medicine in medicines %}
                 <li>
-                    <a href="{% url 'medicine_detail' medicine.id %}">{{ medicine.name }}</a> - {{ medicine.manufacturer }}
+                    {{ medicine.name }} - {{ medicine.manufacturer }}
+                    <a href="{% url 'admin_edit_medicine' medicine.id %}">Edit</a>
+                    <a href="{% url 'admin_delete_medicine' medicine.id %}">Delete</a>
                 </li>
             {% endfor %}
         </ul>
