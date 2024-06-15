@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'base/css/auth.css' %}">
 </head>
 <body>
-    <h1>Register</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
+    <header>
+        <img src="{% static 'base/img/Apotheek-Logo.png' %}" alt="Logo">
+        <div class="header-content">
+            <h1>HR APOTHEEK</h1>
+        </div>
+        <div class="authors">
+            <h2>Authors:<br>-- Bora --<br>-- Halit --</h2>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="form-container">
+            <h2>Register</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

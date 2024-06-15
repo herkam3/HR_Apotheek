@@ -1,0 +1,88 @@
+body {
+    background-color: rgb(255, 233, 237);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #00CC66;
+    color: #fff;
+    padding: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.header-content {
+    text-align: center;
+    flex-grow: 1;
+}
+
+header img {
+    height: 100px;
+    width: auto;
+    position: absolute;
+    left: 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.authors {
+    text-align: right;
+    position: absolute;
+    right: 20px;
+}
+
+.authors h2 {
+    margin: 0;
+}
+
+.main-content {
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+    margin: 50px auto;
+    color: rgb(0, 0, 0);
+    max-width: 600px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+    margin: 20px 0;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-container form input[type="text"],
+.form-container form input[type="password"],
+.form-container form input[type="email"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-container form button {
+    padding: 10px;
+    background-color: #00CC66;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-container form button:hover {
+    background-color: #00994d;
+}
