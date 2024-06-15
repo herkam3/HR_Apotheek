@@ -1,22 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Apotheek</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'base/css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/style.css' %}">
 </head>
 <body>
-    {% include 'base/base.html' %}
+    <header>
+        {% load static %}
+        <img src="{% static 'base/img/Apotheek-Logo.png' %}" alt="Logo">
+        <div class="header-content">
+            <h1>HR APOTHEEK</h1>
+        </div>
+        <div class="authors">
+            <h2>Creators:<br>-- Bora --<br>-- Halit --</h2>
+        </div>
+    </header>
 
-    <h1>Welcome to HR Apotheek</h1>
-    {% if user.is_authenticated %}
-        <p>Hello, {{ user.username }}!</p>
-        <p><a href="{% url 'profile' %}">View Profile</a></p>
-        <p><a href="{% url 'medicine_list' %}">View Medicines</a></p>
-        <p><a href="{% url 'collection_list' %}">View Collections</a></p>
-    {% else %}
-        <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a></p>
-    {% endif %}
+    <main>
+        <section class="intro">
+            <h2>Welcome to HR Apotheek</h2>
+            <p>Your trusted pharmacy for quality healthcare products and services. We are dedicated to providing you with the best service and support for all your health needs.</p>
+            <p>At HR Apotheek, you can manage your prescriptions, view medication details, and stay informed about your health. Our team is here to assist you every step of the way.</p>
+        </section>
+        <section class="auth-options">
+            <div class="auth-box">
+                <h3>Login</h3>
+                <p>Already have an account? Click the button below to log in.</p>
+                <a href="{% url 'login' %}" class="button">Login</a>
+            </div>
+            <div class="auth-box">
+                <h3>Register</h3>
+                <p>New to HR Apotheek? Click the button below to create an account.</p>
+                <a href="{% url 'register' %}" class="button">Register</a>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
