@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Profile, Medicine, Collection
 from .forms import MedicineForm, CollectionForm, ProfileForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 
@@ -28,7 +28,10 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('index')
+            if user.is_staff:
+                return redirect('admin_dashboard')
+            else:
+                return redirect('user_dashboard')
     else:
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
@@ -167,3 +170,15 @@ def admin_view_user_profile(request, user_id):
     profile = Profile.objects.get(user=user)
     collections = Collection.objects.filter(user=user)
     return render(request, 'admin/user_profile.html', {'profile': profile, 'collections': collections})
+
+@login_required
+def user_dashboard(request):
+    collections = Collection.objects.filter(user=request.user)
+    return render(request, 'base/user_dashboard.html', {'collections': collections})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def admin_dashboard(request):
+    users = User.objects.all()
+    collections = Collection.objects.all()
+    return render(request, 'admin/admin_dashboard.html', {'users': users, 'collections': collections})

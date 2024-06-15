@@ -19,4 +19,6 @@ urlpatterns = [
     path('admin/medicines/<int:medicine_id>/edit/', views.admin_edit_medicine, name='admin_edit_medicine'),
     path('admin/medicines/<int:medicine_id>/create_prescription/', views.admin_create_prescription_from_medicine, name='admin_create_prescription_from_medicine'),
     path('admin/users/<int:user_id>/profile/', views.admin_view_user_profile, name='admin_view_user_profile'),
+    path('dashboard/', views.user_dashboard, name='user_dashboard'),
+    path('custom_admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
 ]
