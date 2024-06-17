@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Collection List</title>
+    <title>Collections</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'base/css/style.css' %}">
 </head>
 <body>
     {% include 'base/base.html' %}
     <main>
-        <h2>Admin Collection List</h2>
+        <h2>All Collections</h2>
         <ul>
             {% for collection in collections %}
                 <li>

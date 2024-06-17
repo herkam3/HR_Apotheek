@@ -77,9 +77,8 @@ def collection_mark_collected(request, collection_id):
     return redirect('collection_list')
 
 @login_required
+@user_passes_test(lambda u: u.is_staff)
 def admin_approve_collection(request, collection_id):
-    if not request.user.is_staff:
-        return HttpResponse("Unauthorized", status=401)
     collection = get_object_or_404(Collection, id=collection_id)
     collection.collected_approved = True
     collection.collected_approved_by = request.user
@@ -87,27 +86,32 @@ def admin_approve_collection(request, collection_id):
     return redirect('admin_view_collections')
 
 @login_required
+@user_passes_test(lambda u: u.is_staff)
 def admin_delete_prescription(request, collection_id):
-    if not request.user.is_staff:
-        return HttpResponse("Unauthorized", status=401)
     collection = get_object_or_404(Collection, id=collection_id)
     collection.delete()
     return redirect('admin_view_collections')
 
 @login_required
+@user_passes_test(lambda u: u.is_staff)
 def admin_view_collections(request):
-    if not request.user.is_staff:
-        return HttpResponse("Unauthorized", status=401)
     collections = Collection.objects.all()
     return render(request, 'admin/collection_list.html', {'collections': collections})
 
 @login_required
+@user_passes_test(lambda u: u.is_staff)
 def admin_create_prescription(request):
-    if not request.user.is_staff:
-        return HttpResponse("Unauthorized", status=401)
     if request.method == 'POST':
         form = CollectionForm(request.POST)
         if form.is_valid():
+            medicine = form.cleaned_data['medicine']
+            user = form.cleaned_data['user']
+            date = form.cleaned_data['date']
+            
+            # Ensure a user cannot receive multiple prescriptions for the same medicine on the same day
+            if Collection.objects.filter(user=user, medicine=medicine, date=date).exists():
+                return HttpResponse("A user cannot receive multiple prescriptions for the same medicine on the same day.", status=400)
+            
             form.save()
             return redirect('admin_view_collections')
     else:
@@ -115,9 +119,8 @@ def admin_create_prescription(request):
     return render(request, 'admin/create_prescription.html', {'form': form})
 
 @login_required
+@user_passes_test(lambda u: u.is_staff)
 def admin_create_prescription_from_medicine(request, medicine_id):
-    if not request.user.is_staff:
-        return HttpResponse("Unauthorized", status=401)
     medicine = get_object_or_404(Medicine, id=medicine_id)
     if request.method == 'POST':
         form = CollectionForm(request.POST)
@@ -129,16 +132,14 @@ def admin_create_prescription_from_medicine(request, medicine_id):
     return render(request, 'admin/create_prescription.html', {'form': form, 'medicine': medicine})
 
 @login_required
+@user_passes_test(lambda u: u.is_staff)
 def admin_manage_medicines(request):
-    if not request.user.is_staff:
-        return HttpResponse("Unauthorized", status=401)
     medicines = Medicine.objects.all()
     return render(request, 'admin/medicine_list.html', {'medicines': medicines})
 
 @login_required
+@user_passes_test(lambda u: u.is_staff)
 def admin_add_medicine(request):
-    if not request.user.is_staff:
-        return HttpResponse("Unauthorized", status=401)
     if request.method == 'POST':
         form = MedicineForm(request.POST)
         if form.is_valid():
@@ -149,9 +150,8 @@ def admin_add_medicine(request):
     return render(request, 'admin/add_medicine.html', {'form': form})
 
 @login_required
+@user_passes_test(lambda u: u.is_staff)
 def admin_edit_medicine(request, medicine_id):
-    if not request.user.is_staff:
-        return HttpResponse("Unauthorized", status=401)
     medicine = get_object_or_404(Medicine, id=medicine_id)
     if request.method == 'POST':
         form = MedicineForm(request.POST, instance=medicine)
@@ -163,11 +163,18 @@ def admin_edit_medicine(request, medicine_id):
     return render(request, 'admin/edit_medicine.html', {'form': form})
 
 @login_required
+@user_passes_test(lambda u: u.is_staff)
 def admin_view_user_profile(request, user_id):
-    if not request.user.is_staff:
-        return HttpResponse("Unauthorized", status=401)
     user = get_object_or_404(User, id=user_id)
-    profile = Profile.objects.get(user=user)
+    # Get or create the profile for the user, providing default values for non-nullable fields
+    profile, created = Profile.objects.get_or_create(
+        user=user,
+        defaults={
+            'bio_text': '',
+            'city': '',
+            'date_of_birth': '2000-01-01'  # or another default date
+        }
+    )
     collections = Collection.objects.filter(user=user)
     return render(request, 'admin/user_profile.html', {'profile': profile, 'collections': collections})
 
