@@ -150,7 +150,7 @@ def admin_add_medicine(request):
         form = MedicineForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('admin_manage_medicines')
+            return redirect('admin_dashboard')
     else:
         form = MedicineForm()
     return render(request, 'admin/add_medicine.html', {'form': form})
@@ -163,10 +163,17 @@ def admin_edit_medicine(request, medicine_id):
         form = MedicineForm(request.POST, instance=medicine)
         if form.is_valid():
             form.save()
-            return redirect('admin_manage_medicines')
+            return redirect('admin_dashboard')
     else:
         form = MedicineForm(instance=medicine)
     return render(request, 'admin/edit_medicine.html', {'form': form})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def admin_delete_medicine(request, medicine_id):
+    medicine = get_object_or_404(Medicine, id=medicine_id)
+    medicine.delete()
+    return redirect('admin_dashboard')
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -194,4 +201,5 @@ def user_dashboard(request):
 def admin_dashboard(request):
     users = User.objects.all()
     collections = Collection.objects.all()
-    return render(request, 'admin/admin_dashboard.html', {'users': users, 'collections': collections})
+    medicines = Medicine.objects.all()
+    return render(request, 'admin/admin_dashboard.html', {'users': users, 'collections': collections, 'medicines': medicines})  

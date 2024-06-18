@@ -10,11 +10,11 @@
 <body>
     {% include 'base/base.html' %}
     <main>
-        <h2>Add Medicine</h2>
+        <h2>Add New Medicine</h2>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Save</button>
+            <button type="submit">Add Medicine</button>
         </form>
     </main>
 </body>
