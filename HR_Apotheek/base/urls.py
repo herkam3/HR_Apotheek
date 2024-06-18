@@ -17,8 +17,9 @@ urlpatterns = [
     path('custom_admin/medicines/', views.admin_manage_medicines, name='admin_manage_medicines'),
     path('custom_admin/medicines/add/', views.admin_add_medicine, name='admin_add_medicine'),
     path('custom_admin/medicines/<int:medicine_id>/edit/', views.admin_edit_medicine, name='admin_edit_medicine'),
+    path('custom_admin/medicines/<int:medicine_id>/delete/', views.admin_delete_medicine, name='admin_delete_medicine'),
     path('custom_admin/medicines/<int:medicine_id>/create_prescription/', views.admin_create_prescription_from_medicine, name='admin_create_prescription_from_medicine'),
-    path('custom_admin/users/<int:user_id>/profile/', views.admin_view_user_profile, name='admin_view_user_profile'),  # Updated path
+    path('custom_admin/users/<int:user_id>/profile/', views.admin_view_user_profile, name='admin_view_user_profile'),
     path('dashboard/', views.user_dashboard, name='user_dashboard'),
     path('custom_admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
 ]
