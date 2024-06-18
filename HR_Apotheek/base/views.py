@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Profile, Medicine, Collection
 from .forms import MedicineForm, CollectionForm, ProfileForm
@@ -11,7 +11,7 @@ def index(request):
     return render(request, 'base/index.html')
 
 def register(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
@@ -23,7 +23,7 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 def login_view(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
@@ -35,6 +35,12 @@ def login_view(request):
     else:
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('index')  # or 'login' depending on your URL names
+    
 
 @login_required
 def profile(request):
