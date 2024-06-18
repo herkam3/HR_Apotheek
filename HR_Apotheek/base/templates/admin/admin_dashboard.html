@@ -45,7 +45,13 @@
                 </li>
             {% endfor %}
         </ul>
-        <a href="{% url 'admin_add_medicine' %}">Add New Medicine</a>
+
+        <h3>Add New Medicine</h3>
+        <form method="post" action="{% url 'admin_add_medicine' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add New Medicine</button>
+        </form>
 
         <h3>Create New Collection</h3>
         <form method="post" action="{% url 'admin_create_prescription' %}">
@@ -53,6 +59,8 @@
             {{ form.as_p }}
             <button type="submit">Create Collection</button>
         </form>
+
+
     </main>
 </body>
 </html>
