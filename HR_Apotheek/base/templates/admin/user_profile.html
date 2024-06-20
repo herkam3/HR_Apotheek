@@ -12,13 +12,13 @@
     <main>
         <h2>{{ profile.user.username }}'s Profile</h2>
         <p>City: {{ profile.city }}</p>
-        <p>Date of Birth: {{ profile.date_of_birth }}</p>
+        <p>Date of Birth: {{ profile.date_of_birth|date:"d-m-Y"  }}</p>
         <p>Bio: {{ profile.bio_text }}</p>
         
         <h3>Collections</h3>
         <ul>
             {% for collection in collections %}
-                <li>{{ collection.medicine.name }} - {{ collection.date }} - Collected: {{ collection.collected }} - Approved: {{ collection.collected_approved }}</li>
+                <li>{{ collection.medicine.name }} - {{ collection.date|date:"d-m-Y" }} - Collected: {{ collection.collected }} - Approved: {{ collection.collected_approved }}</li>
             {% endfor %}
         </ul>
     </main>
