@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from .models import Profile, Medicine, Collection
-from .forms import MedicineForm, CollectionForm, ProfileForm, YesNoForm
+from .forms import MedicineForm, CollectionForm, ProfileForm, YesNoForm, CustomUserCreationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -13,14 +13,17 @@ def index(request):
 
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            Profile.objects.create(user=user)  # Create a profile for the new user
+            city = form.cleaned_data.get('city')
+            bio_text = form.cleaned_data.get('bio_text')
+            date_of_birth = form.cleaned_data.get('date_of_birth')
+            Profile.objects.create(user=user, city=city, bio_text=bio_text, date_of_birth=date_of_birth)
             login(request, user)
             return redirect('index')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
 def login_view(request):
