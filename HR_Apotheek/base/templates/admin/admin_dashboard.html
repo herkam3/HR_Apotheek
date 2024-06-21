@@ -27,11 +27,11 @@
                 <li>
                     {{ collection.medicine.name }} - 
                     <a href="{% url 'admin_view_user_profile' collection.user.id %}">{{ collection.user.username }}</a> - 
-                    {{ collection.date|date:"d-m-Y"  }}
+                    {{ collection.date|date:"d-m-Y" }}
                     {% if not collection.collected_approved %}
                         <a href="{% url 'admin_approve_collection' collection.id %}">Approve</a>
                     {% endif %}
-                    <a href="{% url 'admin_delete_prescription' collection.id %}">Delete</a>
+                        <a href="{% url 'admin_delete_prescription' collection.id %}">Delete</a>
                 </li>
             {% endfor %}
         </ul>
@@ -59,8 +59,6 @@
             {{ form.as_p }}
             <button type="submit">Create Collection</button>
         </form>
-
-
     </main>
 </body>
 </html>

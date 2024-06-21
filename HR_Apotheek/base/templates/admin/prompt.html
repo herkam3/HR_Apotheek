@@ -1,0 +1,22 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if action == 'approve' %}Approve Collection{% else %}Are you sure you want to delete?{% endif %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'base/css/urlpos.css' %}">
+</head>
+<body>
+    {% include 'base/base.html' %}
+    <main>
+        <h2>{% if action == 'approve' %}Approve Collection{% else %}Are you sure you want to delete?{% endif %}</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+
+        <a href="{% url 'admin_view_collections' %}">Cancel</a>
+    </main>
+</body>
+</html>
