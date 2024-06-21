@@ -21,10 +21,13 @@ def register(request):
             date_of_birth = form.cleaned_data.get('date_of_birth')
             Profile.objects.create(user=user, city=city, bio_text=bio_text, date_of_birth=date_of_birth)
             login(request, user)
-            return redirect('index')
+            return redirect('register_succes')
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+def register_success(request):
+    return render(request, 'base/register_success.html')
 
 def login_view(request):
     if request.method == "POST":
