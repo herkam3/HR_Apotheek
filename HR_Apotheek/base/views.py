@@ -95,11 +95,14 @@ def collection_mark_collected(request, collection_id):
                 return redirect('collection_list')
             else:
                 messages.info(request, "Approvel canceled.")
-            return redirect('admin_view_collections')
+            return redirect('collection_list')
         
     # collection.collected = True
     # collection.save()
     # return redirect('collection_list')
+    else:
+        form = YesNoForm()
+    return render(request, 'admin/prompt.html', {'form': form, 'action': 'approve'})
 
 
 @login_required
