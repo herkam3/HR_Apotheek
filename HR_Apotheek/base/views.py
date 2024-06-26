@@ -101,6 +101,21 @@ def collection_mark_collected(request, collection_id):
     # collection.save()
     # return redirect('collection_list')
 
+
+@login_required
+def edit_profile(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_profile')
+    else:
+        form = ProfileForm(instance=profile)
+    
+    return render(request, 'base/edit_profile.html', {'form': form})
+
+
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def admin_approve_collection(request, collection_id):
@@ -283,6 +298,4 @@ def prompt_delete(request):
                 messages.info(request, "You selected No.")
             return redirect('admin_dashboard')  # Adjust the redirect target as needed
     else:
-        form = YesNoForm()
-    
-    
+        form = YesNoForm()  

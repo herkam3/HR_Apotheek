@@ -24,4 +24,5 @@ urlpatterns = [
     path('custom_admin/users/<int:user_id>/profile/', views.admin_view_user_profile, name='admin_view_user_profile'),
     path('dashboard/', views.user_dashboard, name='user_dashboard'),
     path('custom_admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
 ]
