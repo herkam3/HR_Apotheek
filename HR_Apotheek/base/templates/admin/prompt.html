@@ -3,7 +3,12 @@
     <meta charset="UTF-8">
     <title>{% if action == 'approve' %}Approve Collection{% else %}Are you sure you want to delete?{% endif %}</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'base/css/urlpos.css' %}">
+    {% comment "" %} staff and client both have the prompt feature {% endcomment %}
+    {% if user.is_staff %}
+        <link rel="stylesheet" href="{% static 'base/css/style.css' %}"> {% comment "" %} staff / admin {% endcomment %}
+    {% else %}
+        <link rel="stylesheet" href="{% static 'base/css/center.css' %}"> {% comment "" %} client / user {% endcomment %}
+    {% endif %}
 </head>
 <body>
     {% include 'base/base.html' %}
@@ -15,7 +20,6 @@
             {{ form.as_p }}
             <button type="submit">Submit</button>
         </form>
-
     </main>
 </body>
 </html>
