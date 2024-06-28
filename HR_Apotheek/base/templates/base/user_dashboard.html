@@ -16,6 +16,7 @@
             {% for collection in collections %}
                 <li>
                     {{ collection.medicine.name }} - {{ collection.date|date:"d-m-Y" }}
+                    <a href="{% url 'medicine_detail' collection.medicine.id %}">View medicine info</a>
                     {% if not collection.collected %}
                         <a href="{% url 'collection_mark_collected' collection.id %}">Mark as Collected</a>
                     {% endif %}
