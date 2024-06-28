@@ -5,7 +5,7 @@
     {% load static %}
     {% comment "" %} staff and client both have the prompt feature {% endcomment %}
     {% if user.is_staff %}
-        <link rel="stylesheet" href="{% static 'base/css/style.css' %}"> {% comment "" %} staff / admin {% endcomment %}
+        <link rel="stylesheet" href="{% static 'base/css/urlpos.css' %}"> {% comment "" %} staff / admin {% endcomment %}
     {% else %}
         <link rel="stylesheet" href="{% static 'base/css/center.css' %}"> {% comment "" %} client / user {% endcomment %}
     {% endif %}
