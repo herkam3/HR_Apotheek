@@ -43,7 +43,40 @@
             <button type="submit">Create Collection</button>
         </form>
 
-        <h2>All Medicines</h2>
+        <h2>Manage Medicines</h2>
+        <ul>
+            {% for medicine in medicines %}
+                <li>
+                    {{ medicine.name }} - {{ medicine.manufacturer }}
+                    <form method="post" action="{% url 'medicine_detail' medicine.id %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">View details</button>
+                    </form>
+                    <a href="{% url 'admin_edit_medicine' medicine.id %}">Edit details</a>
+                    {% comment %} <form method="post" action="{% url 'admin_edit_medicine' medicine.id %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Edit details</button>
+                    </form> {% endcomment %}
+                    {% comment %} <a href="{% url 'admin_delete_medicine' medicine.id %}">Delete</a> {% endcomment %}
+                    <form method="post" action="{% url 'admin_delete_medicine' medicine.id %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Delete medicine</button>
+                    </form>
+                    <br>
+                </li>
+            {% endfor %}
+        </ul>
+        <h3>Add New Medicine</h3>
+        <form method="post" action="{% url 'admin_add_medicine' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add New Medicine</button>
+        </form>
+
+        {% comment %} <h2>All Medicines</h2>
         <ul>
             {% for medicine in medicines %}
                 <li>
@@ -58,7 +91,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Add New Medicine</button>
-        </form>
+        </form> {% endcomment %}
     </main>
 </body>
 </html>
