@@ -20,12 +20,12 @@
                         {{ form.as_p }}
                         <button type="submit">View details</button>
                     </form>
-                    {% comment %} <a href="{% url 'admin_edit_medicine' medicine.id %}">Edit</a> {% endcomment %}
-                    <form method="post" action="{% url 'admin_edit_medicine' medicine.id %}">
+                    <a href="{% url 'admin_edit_medicine' medicine.id %}">Edit</a>
+                    {% comment %} <form method="post" action="{% url 'admin_edit_medicine' medicine.id %}">
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button type="submit">Edit details</button>
-                    </form>
+                    </form> {% endcomment %}
                     {% comment %} <a href="{% url 'admin_delete_medicine' medicine.id %}">Delete</a> {% endcomment %}
                     <form method="post" action="{% url 'admin_delete_medicine' medicine.id %}">
                         {% csrf_token %}
