@@ -22,10 +22,14 @@
         
         {% comment %} admin and base/user both use this html {% endcomment %}
         {% if user.is_staff %}
-            <p>Total pickups: {{ total_collections.count }}</p>
-            <a href="{% url 'admin_create_prescription_from_medicine' medicine.id %}">Create Pickup Action</a>
+            <h2>Total Amount of prescriptions</h2>
+            <p>Total prescriptions: {{ total_collections.count }}</p>
+            {% comment %} <p>Total user aproved pickup: {{ total_collections.count }}</p> {% endcomment %}
+            {% comment %} <p>Total admin aproved pickup: {{ total_collections.count }}</p> {% endcomment %}
+            <h2>Craete new prescription of this item</h2>
+            {% comment %} <a href="{% url 'admin_create_prescription_from_medicine' medicine.id %}">Create Pickup Action</a> {% endcomment %}
         {% else %}
-            <h3>Amount of prescriptions</h3>
+            <h2>Amount of prescriptions</h2>
             <p>Prescriptions received of this item: {{ user_collections.count }}</p>
         {% endif %}
     </main>

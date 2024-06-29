@@ -12,7 +12,7 @@
     <main>
         <h2>Welcome, Admin {{ user.username }}!</h2>
         
-        <h3>All Users</h3>
+        <h2>All Users</h2>
         <ul>
             {% for user in users %}
                 <li>
@@ -21,7 +21,7 @@
             {% endfor %}
         </ul>
 
-        <h3>All Collections</h3>
+        <h2>All Collections</h2>
         <ul>
             {% for collection in collections %}
                 <li>
@@ -36,7 +36,14 @@
             {% endfor %}
         </ul>
 
-        <h3>All Medicines</h3>
+        <h3>Create New Collection</h3>
+        <form method="post" action="{% url 'admin_create_prescription' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create Collection</button>
+        </form>
+
+        <h2>All Medicines</h2>
         <ul>
             {% for medicine in medicines %}
                 <li>
@@ -51,13 +58,6 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Add New Medicine</button>
-        </form>
-
-        <h3>Create New Collection</h3>
-        <form method="post" action="{% url 'admin_create_prescription' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Create Collection</button>
         </form>
     </main>
 </body>

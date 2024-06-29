@@ -306,6 +306,12 @@ def admin_dashboard(request):
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
+def admin_user_list(request):
+    users = User.objects.all()
+    return render(request, 'admin/user_list.html', {'users': users})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
 def prompt_delete(request):
     if request.method == 'POST':
         form = YesNoForm(request.POST)

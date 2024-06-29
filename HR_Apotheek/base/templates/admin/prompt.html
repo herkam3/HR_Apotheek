@@ -14,7 +14,6 @@
     {% include 'base/base.html' %}
     <main>
         <h2>{% if action == 'approve' %}Approve Collection{% else %}Are you sure you want to delete?{% endif %}</h2>
-        
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
