@@ -20,6 +20,9 @@
             {% for collection in collections %}
                 <li>{{ collection.medicine.name }} - {{ collection.date|date:"d-m-Y" }} - Collected: {{ collection.collected }} - Approved: {{ collection.collected_approved }}</li>
             {% endfor %}
+            {% if collections.count == 0 %}
+                <p>this user has not received any prescription for collection</p>
+            {% endif %} 
         </ul>
     </main>
 </body>
