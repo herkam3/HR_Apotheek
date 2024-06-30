@@ -24,6 +24,8 @@
         {% if user.is_staff %}
             <h2>Total Amount of prescriptions</h2>
             <p>Total prescriptions: {{ total_collections.count }}</p>
+            <p>User approved pickups: {{ user_approved_collections }}</p>
+            <p>Staff approved pickups: {{ staff_approved_collections }}</p>
             {% comment %} <p>Total user aproved pickup: {{ total_collections.count }}</p> {% endcomment %}
             {% comment %} <p>Total admin aproved pickup: {{ total_collections.count }}</p> {% endcomment %}
             {% comment %} <h2>Craete new prescription of this item</h2> {% endcomment %}

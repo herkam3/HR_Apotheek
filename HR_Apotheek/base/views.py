@@ -87,10 +87,14 @@ def medicine_detail(request, medicine_id):
     medicine = get_object_or_404(Medicine, id=medicine_id)
     user_collections = Collection.objects.filter(user=request.user, medicine=medicine)
     total_collections = Collection.objects.filter(medicine=medicine)
+    user_approved_collections = total_collections.filter(collected=True).count()
+    staff_approved_collections = total_collections.filter(collected_approved=True).count()
     return render(request, 'base/medicine_detail.html', {
         'medicine': medicine,
         'user_collections': user_collections,
         'total_collections': total_collections,
+        'user_approved_collections': user_approved_collections,
+        'staff_approved_collections': staff_approved_collections
     })
 
 @login_required
