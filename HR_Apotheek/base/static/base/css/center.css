@@ -47,41 +47,6 @@ main {
     margin-bottom: 30px;
 }
 
-.auth-options {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-}
-
-.auth-box {
-    background-color: #fff;
-    color: #000;
-    padding: 20px;
-    border-radius: 8px;
-    width: 200px;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.auth-box h3 {
-    margin-top: 0;
-}
-
-.auth-box .button {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-top: 10px;
-    background-color: #00CC66;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.auth-box .button:hover {
-    background-color: #00994d;
-}
-
-
 .main-content {
     display: flex;
     justify-content: center; /* Center the form container horizontally */

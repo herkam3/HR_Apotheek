@@ -10,16 +10,24 @@
 <body>
     {% include 'base/base.html' %}
     <main>
-        <h2>Collection List</h2>
+        <h2>Collection History</h2>
         <ul>
             {% for collection in collections %}
                 <li>
-                    {{ collection.medicine.name }} - {{ collection.date|date:"d-m-Y"  }}
+                    <a href="{% url 'medicine_detail' collection.medicine.id %}">{{ collection.medicine.name }}</a> - {{ collection.date|date:"d-m-Y" }}
                     {% if not collection.collected %}
+                        - status: waiting for user approval.
                         <a href="{% url 'collection_mark_collected' collection.id %}">Mark as Collected</a>
+                    {% elif not collection.collected_approved %} 
+                        - status: waiting for admin approval.
+                    {% else %}
+                        - status: collection approved.
                     {% endif %}
                 </li>
             {% endfor %}
+            {% if collections.count == 0 %}
+                <p>No collections found.</p>
+            {% endif %} 
         </ul>
     </main>
 </body>

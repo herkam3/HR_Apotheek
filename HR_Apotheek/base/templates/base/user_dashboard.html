@@ -14,14 +14,25 @@
         <h3>Your Collections</h3>
         <ul>
             {% for collection in collections %}
-                <li>
-                    {{ collection.medicine.name }} - {{ collection.date|date:"d-m-Y" }}
-                    <a href="{% url 'medicine_detail' collection.medicine.id %}">View medicine info</a>
-                    {% if not collection.collected %}
-                        <a href="{% url 'collection_mark_collected' collection.id %}">Mark as Collected</a>
-                    {% endif %}
-                </li>
+                {% if not collection.collected and not collection.collected_approved %}
+                    <li>
+                        <a href="{% url 'medicine_detail' collection.medicine.id %}">{{ collection.medicine.name }}</a> - {{ collection.date|date:"d-m-Y" }}
+                        {% if not collection.collected %}
+                            <a href="{% url 'collection_mark_collected' collection.id %}">Mark as Collected</a>
+                            - status: waiting for user aproval.
+                        {% elif not collection.collected_approved %} 
+                            - status: waiting for admin aproval.
+                        {% else %}
+                            {% comment "" %} fail save incase {% if not collection.collected and not collection.collected_approved %} fails {% endcomment %}
+                            - status: collection approved.
+                        {% endif %}
+                    </li>
+                {% endif %} 
             {% endfor %}
+            {% if collections.all.1.collected and collections.all.1.collected_approved or collections.count == 0 %}
+                <p>No collections to approve,<br>
+                contact HR Apotheek if you was intended to receive a prescription.</p>           
+            {% endif %} 
         </ul>
     </main>
 </body>
