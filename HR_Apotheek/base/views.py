@@ -204,10 +204,12 @@ def admin_create_prescription(request):
             
             # Ensure a user cannot receive multiple prescriptions for the same medicine on the same day
             if Collection.objects.filter(user=user, medicine=medicine, date=date).exists():
-                return HttpResponse("A user cannot receive multiple prescriptions for the same medicine on the same day.", status=400)
+                # return HttpResponse("A user cannot receive multiple prescriptions for the same medicine on the same day.", status=400)
+                messages.warning(request, "A user cannot receive multiple prescriptions for the same medicine on the same day.")
             
-            form.save()
-            return redirect('admin_view_collections')
+            else:
+                form.save()
+                return redirect('admin_view_collections')
     else:
         form = CollectionForm()
     return render(request, 'admin/create_prescription.html', {'form': form})
