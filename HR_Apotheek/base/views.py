@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
+from django.contrib import messages
 from .models import Profile, Medicine, Collection
-from .forms import MedicineForm, CollectionForm, ProfileForm
+from .forms import MedicineForm, CollectionForm, ProfileForm, YesNoForm, CustomUserCreationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -12,15 +13,37 @@ def index(request):
 
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            Profile.objects.create(user=user)  # Create a profile for the new user
+            city = form.cleaned_data.get('city')
+            bio_text = form.cleaned_data.get('bio_text')
+            date_of_birth = form.cleaned_data.get('date_of_birth')
+            Profile.objects.create(user=user, city=city, bio_text=bio_text, date_of_birth=date_of_birth)
             login(request, user)
-            return redirect('index')
+            return redirect('register_succes')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+def register_success(request):
+    return render(request, 'base/register_success.html')
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important to update the session with the new password
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'base/change_password.html', {'form': form})
+
 
 def login_view(request):
     if request.method == "POST":
@@ -64,10 +87,14 @@ def medicine_detail(request, medicine_id):
     medicine = get_object_or_404(Medicine, id=medicine_id)
     user_collections = Collection.objects.filter(user=request.user, medicine=medicine)
     total_collections = Collection.objects.filter(medicine=medicine)
+    user_approved_collections = total_collections.filter(collected=True).count()
+    staff_approved_collections = total_collections.filter(collected_approved=True).count()
     return render(request, 'base/medicine_detail.html', {
         'medicine': medicine,
         'user_collections': user_collections,
         'total_collections': total_collections,
+        'user_approved_collections': user_approved_collections,
+        'staff_approved_collections': staff_approved_collections
     })
 
 @login_required
@@ -78,25 +105,86 @@ def collection_list(request):
 @login_required
 def collection_mark_collected(request, collection_id):
     collection = get_object_or_404(Collection, id=collection_id, user=request.user)
-    collection.collected = True
-    collection.save()
-    return redirect('collection_list')
+    if request.method == 'POST':
+        form = YesNoForm(request.POST)
+        if form.is_valid():
+            response = form.cleaned_data['response']
+            if response == 'yes':
+                collection.collected = True
+                collection.save()
+                return redirect('collection_list')
+            else:
+                messages.info(request, "Approvel canceled.")
+            return redirect('collection_list')
+        
+    # collection.collected = True
+    # collection.save()
+    # return redirect('collection_list')
+    else:
+        form = YesNoForm()
+    return render(request, 'admin/prompt.html', {'form': form, 'action': 'approve'})
+
+
+@login_required
+def edit_profile(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_profile')
+    else:
+        form = ProfileForm(instance=profile)
+    
+    return render(request, 'base/edit_profile.html', {'form': form})
+
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def admin_approve_collection(request, collection_id):
     collection = get_object_or_404(Collection, id=collection_id)
-    collection.collected_approved = True
-    collection.collected_approved_by = request.user
-    collection.save()
-    return redirect('admin_view_collections')
+    if request.method == 'POST':
+        form = YesNoForm(request.POST)
+        if form.is_valid():
+            response = form.cleaned_data['response']
+            if response == 'yes':
+                collection.collected_approved = True
+                collection.collected_approved_by = request.user
+                collection.save()
+            else:
+                messages.info(request, "Approvel canceled.")
+            return redirect('admin_view_collections')
+        
+    else:
+        form = YesNoForm()
+    return render(request, 'admin/prompt.html', {'form': form, 'action': 'approve'})
+    
+    # collection.collected_approved = True
+    # collection.collected_approved_by = request.user
+    # collection.save()
+    # return redirect('admin_view_collections')
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def admin_delete_prescription(request, collection_id):
     collection = get_object_or_404(Collection, id=collection_id)
-    collection.delete()
-    return redirect('admin_view_collections')
+    if request.method == 'POST':
+        form = YesNoForm(request.POST)
+        if form.is_valid():
+            response = form.cleaned_data['response']
+            if response == 'yes':
+                collection.delete()
+                messages.success(request, "Prescription deleted successfully.")
+            else:
+                messages.info(request, "Deletion canceled.")
+            return redirect('admin_view_collections')
+    else:
+        form = YesNoForm()
+    return render(request, 'admin/prompt.html', {'form': form, 'action': 'delete'})
+    
+    # collection = get_object_or_404(Collection, id=collection_id)
+    # collection.delete()
+    # return redirect('admin_view_collections')
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -172,8 +260,24 @@ def admin_edit_medicine(request, medicine_id):
 @user_passes_test(lambda u: u.is_staff)
 def admin_delete_medicine(request, medicine_id):
     medicine = get_object_or_404(Medicine, id=medicine_id)
-    medicine.delete()
-    return redirect('admin_dashboard')
+    if request.method == 'POST':
+        form = YesNoForm(request.POST)
+        if form.is_valid():
+            response = form.cleaned_data['response']
+            if response == 'yes':
+                medicine.delete()
+                messages.success(request, "Medicine deleted successfully.")
+            else:
+                messages.info(request, "Deletion canceled.")
+            return redirect('admin_dashboard')
+            
+    else:
+        form = YesNoForm()
+    return render(request, 'admin/prompt.html', {'form': form, 'action': 'delete'})
+            
+    
+    # medicine.delete()
+    # return redirect('admin_dashboard')
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -203,3 +307,24 @@ def admin_dashboard(request):
     collections = Collection.objects.all()
     medicines = Medicine.objects.all()
     return render(request, 'admin/admin_dashboard.html', {'users': users, 'collections': collections, 'medicines': medicines})  
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def admin_user_list(request):
+    users = User.objects.all()
+    return render(request, 'admin/user_list.html', {'users': users})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def prompt_delete(request):
+    if request.method == 'POST':
+        form = YesNoForm(request.POST)
+        if form.is_valid():
+            response = form.cleaned_data['response']
+            if response == 'yes':
+                messages.success(request, "You selected Yes!")
+            else:
+                messages.info(request, "You selected No.")
+            return redirect('admin_dashboard')  # Adjust the redirect target as needed
+    else:
+        form = YesNoForm()  

@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('register/', views.register, name='register'),
+    path('register/success/', views.register_success, name='register_succes'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('profile/', views.profile, name='profile'),
@@ -21,6 +22,9 @@ urlpatterns = [
     path('custom_admin/medicines/<int:medicine_id>/delete/', views.admin_delete_medicine, name='admin_delete_medicine'),
     path('custom_admin/medicines/<int:medicine_id>/create_prescription/', views.admin_create_prescription_from_medicine, name='admin_create_prescription_from_medicine'),
     path('custom_admin/users/<int:user_id>/profile/', views.admin_view_user_profile, name='admin_view_user_profile'),
+    path('custom_admin/users/', views.admin_user_list, name='admin_user_list'),
     path('dashboard/', views.user_dashboard, name='user_dashboard'),
     path('custom_admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
+    path('change_password/', views.change_password, name='change_password'),
 ]

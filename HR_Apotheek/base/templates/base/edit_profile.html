@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'base/css/center.css' %}">
+    <head>
+        <title>Profile</title>
+        <body>
+            {% include 'base/base.html' %}
+        </body>
+    </head>
+
+    <div class="main-content">
+        <div class="form-container">
+            <h2>Edit Profile</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

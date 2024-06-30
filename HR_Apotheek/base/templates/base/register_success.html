@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Apotheek</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'base/css/center.css' %}">
+</head>
+<body>
+    <header>
+        {% load static %}
+        <img src="{% static 'base/img/Apotheek-Logo.png' %}" alt="Logo">
+        <div class="header-content">
+            <h1>HR APOTHEEK</h1>
+        </div>
+        <div class="authors">
+            <h2>Authors: <br>-- Bora -- <br>-- Halit -- </h2>
+        </div>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h2>Account succesfully created!</h2>
+        </section>
+        <section class="auth-options">
+            <div class="auth-box">
+                <h3>Login</h3>
+                <a href="{% url 'login' %}" class="button">Login</a>
+            </div>
+            <div class="auth-box">
+                <h3>StartMenu</h3>
+                <a href="{% url 'index' %}" class="button">StartMenu</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,4 +1,4 @@
-/* BETA style */
+/* Base/User style */
 
 body {
     background-color: rgb(255, 233, 237);
@@ -10,7 +10,7 @@ body {
 header {
     background-color: #00CC66;
     color: #fff;
-    padding: 35px; /* Increased padding to make the header thicker */
+    padding: 0x; /* Increased padding to make the header thicker */
     display: flex;
     align-items: center;
     justify-content: center; /* Center all items in the header */
@@ -30,16 +30,6 @@ header img {
 }
 
 header h1 {
-    margin: 0;
-}
-
-.authors {
-    text-align: right;
-    position: absolute;
-    right: 20px; /* Position authors on the right */
-}
-
-.authors h2 {
     margin: 0;
 }
 
@@ -89,4 +79,21 @@ main {
 
 .auth-box .button:hover {
     background-color: #00994d;
+}
+
+
+.main-content {
+    display: flex;
+    justify-content: center; /* Center the form container horizontally */
+    align-items: center;     /* Center the form container vertically */
+    height: 45vh;           /* Full viewport height for centering */
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
 }

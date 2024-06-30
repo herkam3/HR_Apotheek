@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medicine List</title>
+    <title>Admin Dashboard</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'base/css/center.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/urlpos.css' %}">
 </head>
 <body>
     {% include 'base/base.html' %}
-    <main>
-        <h2>Medicine List</h2>
+    <main>        
+        <h2>All Users</h2>
         <ul>
-            {% for medicine in medicines %}
+            {% for user in users %}
                 <li>
-                    <a href="{% url 'medicine_detail' medicine.id %}">{{ medicine.name }}</a> - {{ medicine.manufacturer }}
+                    {{ user.username }} - <a href="{% url 'admin_view_user_profile' user.id %}">View Profile</a>
                 </li>
             {% endfor %}
         </ul>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collection List</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'base/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/center.css' %}">
 </head>
 <body>
     {% include 'base/base.html' %}
@@ -14,7 +14,7 @@
         <ul>
             {% for collection in collections %}
                 <li>
-                    {{ collection.medicine.name }} - {{ collection.date }}
+                    {{ collection.medicine.name }} - {{ collection.date|date:"d-m-Y"  }}
                     {% if not collection.collected %}
                         <a href="{% url 'collection_mark_collected' collection.id %}">Mark as Collected</a>
                     {% endif %}
